@@ -1,0 +1,51 @@
+<h1>Show Customer</h1>
+
+<%= if @live_action in [:edit] do %>
+  <.modal return_to={Routes.customer_show_path(@socket, :show, @customer)}>
+    <.live_component
+      module={PheonixLiveWeb.CustomerLive.FormComponent}
+      id={@customer.id}
+      title={@page_title}
+      action={@live_action}
+      customer={@customer}
+      return_to={Routes.customer_show_path(@socket, :show, @customer)}
+    />
+  </.modal>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @customer.name %>
+  </li>
+
+  <li>
+    <strong>Fullname:</strong>
+    <%= @customer.fullname %>
+  </li>
+
+  <li>
+    <strong>Phone address:</strong>
+    <%= @customer.phone_address %>
+  </li>
+
+  <li>
+    <strong>Info1:</strong>
+    <%= @customer.info1 %>
+  </li>
+
+  <li>
+    <strong>Info2:</strong>
+    <%= @customer.info2 %>
+  </li>
+
+  <li>
+    <strong>Info3:</strong>
+    <%= @customer.info3 %>
+  </li>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.customer_show_path(@socket, :edit, @customer), class: "button" %></span> |
+<span><%= live_redirect "Back", to: Routes.customer_index_path(@socket, :index) %></span>

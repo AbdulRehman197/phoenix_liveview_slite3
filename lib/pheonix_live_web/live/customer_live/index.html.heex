@@ -1,0 +1,47 @@
+<h1>Listing Customers</h1>
+
+<%= if @live_action in [:new, :edit] do %>
+  <.modal return_to={Routes.customer_index_path(@socket, :index)}>
+    <.live_component
+      module={PheonixLiveWeb.CustomerLive.FormComponent}
+      id={@customer.id || :new}
+      title={@page_title}
+      action={@live_action}
+      customer={@customer}
+      return_to={Routes.customer_index_path(@socket, :index)}
+    />
+  </.modal>
+<% end %>
+
+<table>
+ 
+    <tr class = "title_row">
+      <td><input class = "title" disabled value = "Name" /></td>
+      <td><input class = "title" disabled value = "Fullname" /></td>
+      <td><input class = "title"disabled value = "Phone address"/></td>
+      <td><input class = "title" disabled value = "Info1" /></td>
+      <td><input class = "title" disabled value = "Info2" /></td>
+      <td><input class = "title" disabled value = "Info3" /></td>
+    </tr>
+    <%= for customer <- @customers do %>
+      <tr id={"customer-#{customer.id}"}>
+        <td><input  value = {customer.name}/> </td>
+        <td><input  value = {customer.fullname}/></td>
+        <td><input  value = {customer.phone_address}/></td>
+        <td><input  value = {customer.info1}/></td>
+        <td><input  value = {customer.info2}/></td>
+        <td><input  value = {customer.info3}/></td>
+  
+
+      </tr>
+        <!-- <td>
+          <span><%= live_redirect "Show", to: Routes.customer_show_path(@socket, :show, customer) %></span>
+          <span><%= live_patch "Edit", to: Routes.customer_index_path(@socket, :edit, customer) %></span>
+          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: customer.id, data: [confirm: "Are you sure?"] %></span>
+        </td>
+        -->
+    <% end %>
+  
+</table>
+
+     <!-- <span><%= live_patch "New Customer", to: Routes.customer_index_path(@socket, :new) %></span>  -->
