@@ -30,13 +30,13 @@
     <table>
       <%= for report <- @customer_reports do %>
         <tr class = {report.class}>
-          <td><input disabled value = {report.id}/> </td>
+          <td><input disabled value = {report.customer_id}/> </td>
           <td><input value = {report.customer_detail}/> </td>
-          <td><input value = {report.report1}/></td>
-          <td><input value = {report.report2}/></td>
-          <td><input value = {report.report3}/></td>
-          <td><input value = {report.report4}/></td>
-          <td><input value = {report.report5}/></td>
+          <td><input phx-blur={"update:report1:#{report.id}"} value = {report.report1}/></td>
+          <td><input phx-blur={"update:report2:#{report.id}"} value = {report.report2}/></td>
+          <td><input phx-blur={"update:report3:#{report.id}"} value = {report.report3}/></td>
+          <td><input phx-blur={"update:report4:#{report.id}"} value = {report.report4}/></td>
+          <td><input phx-blur={"update:report5:#{report.id}"} value = {report.report5}/></td>
         </tr>
           <!-- <td>
             <span><%= live_redirect "Show", to: Routes.customer_show_path(@socket, :show, report) %></span>

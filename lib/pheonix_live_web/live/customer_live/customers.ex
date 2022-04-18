@@ -56,7 +56,7 @@ defmodule PheonixLiveWeb.CustomerLive.Customers do
         {:noreply,
          socket
          |> put_flash(:info, "Customer created successfully")
-         |> push_redirect(to: socket.assigns.return_to)}
+         |> push_redirect(to: "/customers")}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, changeset: changeset)}
@@ -69,7 +69,7 @@ defmodule PheonixLiveWeb.CustomerLive.Customers do
         {:noreply,
          socket
          |> put_flash(:info, "Customer updated successfully")
-         |> push_redirect(to: socket.assigns.return_to)}
+         |> push_redirect(to: "/customers")}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, :changeset, changeset)}
