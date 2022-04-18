@@ -1,4 +1,4 @@
-defmodule PheonixLiveWeb.CustomerLive.Index do
+defmodule PheonixLiveWeb.CustomerLive.Customers do
   use PheonixLiveWeb, :live_view
 
   alias PheonixLive.Company
@@ -44,21 +44,61 @@ defmodule PheonixLiveWeb.CustomerLive.Index do
 
   @impl true
   def handle_event("delete", %{"id" => id}, socket) do
-    customer = Company.get_customer!(id)
+    customer = Company.get_customer(id)
     {:ok, _} = Company.delete_customer(customer)
 
     {:noreply, assign(socket, :customers, list_customers())}
   end
 
-  def handle_event("enter_id",%{"key" => "Enter","value" => id}, socket) when id != "" do
-    case Company.get_customer(id) do
-    nil -> {:noreply, socket}
-    customer -> new_customer = add_class(Enum.at(socket.assigns.customers,-1),customer)
-      {:noreply, assign(socket, :customers, socket.assigns.customers ++ [new_customer])}
+  defp save_customer(socket, :new, customer_params) do
+    case Company.create_customer(customer_params) do
+      {:ok, _customer} ->
+        {:noreply,
+         socket
+         |> put_flash(:info, "Customer created successfully")
+         |> push_redirect(to: socket.assigns.return_to)}
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        {:noreply, assign(socket, changeset: changeset)}
     end
   end
 
-  def handle_event("enter_id",_, socket) do
+  defp save_customer(socket, :edit, customer, customer_params) do
+    case Company.update_customer(customer, customer_params) do
+      {:ok, _customer} ->
+        {:noreply,
+         socket
+         |> put_flash(:info, "Customer updated successfully")
+         |> push_redirect(to: socket.assigns.return_to)}
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        {:noreply, assign(socket, :changeset, changeset)}
+    end
+  end
+
+  def input_handler(customer_params,socket) do
+    save_customer(socket, :new, customer_params)
+  end
+
+  def handle_event("new_" <> field,%{"key" => "Enter","value" => value}, socket) when value != "" do
+    params = Map.replace(%{
+      "fullname" => "",
+      "info1" => "",
+      "info2" => "",
+      "info3" => "",
+      "name" => "",
+      "phone_address" => ""
+    },field,value)
+    input_handler(params,socket)
+  end
+
+  def handle_event("update:" <> params,%{"value" => value}, socket) when value != "" do
+    [field,id] = String.split(params,":")
+    customer = Company.get_customer(id)
+    save_customer(socket, :edit, customer, %{field => value})
+  end
+
+  def handle_event(_,_, socket) do
     {:noreply,socket}
   end
 

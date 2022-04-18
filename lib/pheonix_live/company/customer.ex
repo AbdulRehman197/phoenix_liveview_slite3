@@ -17,6 +17,6 @@ defmodule PheonixLive.Company.Customer do
   def changeset(customer, attrs) do
     customer
     |> cast(attrs, [:name, :fullname, :phone_address, :info1, :info2, :info3])
-    |> validate_required([:name, :fullname, :phone_address, :info1, :info2, :info3])
+    # |> validate_required([:name, :fullname, :phone_address, :info1, :info2, :info3])
   end
 end

@@ -6,7 +6,6 @@
     for={@changeset}
     id="customer-form"
     phx-target={@myself}
-    phx-change="validate"
     phx-submit="save">
   
     <%= label f, :name %>
@@ -37,4 +36,5 @@
       <%= submit "Save", phx_disable_with: "Saving..." %>
     </div>
   </.form>
+<!-- phx-change="validate" -->
 </div>

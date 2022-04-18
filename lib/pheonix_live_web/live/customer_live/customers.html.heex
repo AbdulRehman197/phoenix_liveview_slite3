@@ -1,0 +1,58 @@
+<h1>Customers List</h1>
+
+<%= if @live_action in [:new, :edit] do %>
+  <.modal return_to={Routes.customer_index_path(@socket, :index)}>
+    <.live_component
+      module={PheonixLiveWeb.CustomerLive.FormComponent}
+      id={@customer.id || :new}
+      title={@page_title}
+      action={@live_action}
+      customer={@customer}
+      return_to={Routes.customer_index_path(@socket, :index)}
+    />
+  </.modal>
+<% end %>
+<div>
+  <div style="overflow-y: scroll">
+    <table style="margin-bottom: 0px">
+      <tr class = "title_row">
+        <td><input class = "title" disabled value = "Name" /></td>
+        <td><input class = "title" disabled value = "Fullname" /></td>
+        <td><input class = "title"disabled value = "Phone address"/></td>
+        <td><input class = "title" disabled value = "Info1" /></td>
+        <td><input class = "title" disabled value = "Info2" /></td>
+        <td><input class = "title" disabled value = "Info3" /></td>
+      </tr>
+    </table>
+  </div>
+  <div class="table-body">
+    <table>
+      <%= for customer <- @customers do %>
+        <tr class = {customer.class} id={"customer-#{customer.id}"}>
+          <td><input phx-blur={"update:name:#{customer.id}"} value = {customer.name}/> </td>
+          <td><input phx-blur={"update:fullname:#{customer.id}"} value = {customer.fullname}/></td>
+          <td><input phx-blur={"update:phone_address:#{customer.id}"} value = {customer.phone_address}/></td>
+          <td><input phx-blur={"update:info1:#{customer.id}"} value = {customer.info1}/></td>
+          <td><input phx-blur={"update:info2:#{customer.id}"} value = {customer.info2}/></td>
+          <td><input phx-blur={"update:info3:#{customer.id}"} value = {customer.info3}/></td>
+        </tr>
+          <!-- <td>
+            <span><%= live_redirect "Show", to: Routes.customer_show_path(@socket, :show, customer) %></span>
+            <span><%= live_patch "Edit", to: Routes.customer_index_path(@socket, :edit, customer) %></span>
+            <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: customer.id, data: [confirm: "Are you sure?"] %></span>
+          </td>
+          -->
+      <% end %>
+      <tr>
+        <td><input phx-window-keydown="new_name" /></td>
+        <td><input phx-window-keydown="new_fullname" /></td>
+        <td><input phx-window-keydown="new_phone_address" /></td>
+        <td><input phx-window-keydown="new_info1" /></td>
+        <td><input phx-window-keydown="new_info2" /></td>
+        <td><input phx-window-keydown="new_info3" /></td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<span><%= live_patch "Customers Report", to: Routes.customer_index_path(@socket, :index) %></span>

@@ -78,11 +78,11 @@ defmodule PheonixLiveWeb.Router do
 
     live "/", CustomerLive.Index, :index
     live "/new", CustomerLive.Index, :new
+    live "/customers", CustomerLive.Customers, :index
     live "/:id/edit", CustomerLive.Index, :edit
 
     live "/:id", CustomerLive.Show, :show
     live "/:id/show/edit", CustomerLive.Show, :edit
-
 
 
     get "/users/settings", UserSettingsController, :edit

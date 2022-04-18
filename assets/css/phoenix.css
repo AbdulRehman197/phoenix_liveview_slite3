@@ -100,6 +100,16 @@ header nav a {
   }
 }
 
+.heading-table {
+  width:97.8%;
+  margin-bottom: 0;
+}
+
+.table-body {
+  overflow-y: scroll;
+  height: 50vh;
+}
+
 td {
   padding: 0;
   border: #BEBEC4;
@@ -110,8 +120,36 @@ input {
 }
 .title {
   font-weight: bold;
+  color: #000000;
 }
 
 .title_row {
-  background-color: #BEBEC4;
+  background-color: #7e7e7e;
+}
+
+.light_row {
+  background-color: #e7e9e9;
+}
+
+.dark_row {
+  background-color: #7d8588;
+}
+
+::-webkit-scrollbar {
+  width: 7px !important;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: white !important; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888 !important; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555 !important; 
 }

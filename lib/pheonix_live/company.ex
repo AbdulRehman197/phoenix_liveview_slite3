@@ -35,7 +35,9 @@ defmodule PheonixLive.Company do
       ** (Ecto.NoResultsError)
 
   """
-  def get_customer!(id), do: Repo.get!(Customer, id)
+  def get_customer(id) do
+    Repo.get(Customer, id)
+  end
 
   @doc """
   Creates a customer.
