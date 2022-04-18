@@ -4,10 +4,10 @@
   <.modal return_to={Routes.customer_index_path(@socket, :index)}>
     <.live_component
       module={PheonixLiveWeb.CustomerLive.FormComponent}
-      id={@customer.id || :new}
+      id={@customer_report.id || :new}
       title={@page_title}
       action={@live_action}
-      customer={@customer}
+      customer={@customer_report}
       return_to={Routes.customer_index_path(@socket, :index)}
     />
   </.modal>
@@ -28,20 +28,20 @@
   </div>
   <div class="table-body">
     <table>
-      <%= for customer <- @customers do %>
-        <tr class = {customer.class}>
-          <td><input  value = {customer.id}/> </td>
-          <td><input  value = {"#{customer.name} #{customer.fullname} #{customer.phone_address} #{customer.info1} #{customer.info2} #{customer.info3}"}/> </td>
-          <td><input  value = {}/></td>
-          <td><input  value = {}/></td>
-          <td><input  value = {}/></td>
-          <td><input  value = {}/></td>
-          <td><input  value = {}/></td>
+      <%= for report <- @customer_reports do %>
+        <tr class = {report.class}>
+          <td><input disabled value = {report.id}/> </td>
+          <td><input value = {report.customer_detail}/> </td>
+          <td><input value = {report.report1}/></td>
+          <td><input value = {report.report2}/></td>
+          <td><input value = {report.report3}/></td>
+          <td><input value = {report.report4}/></td>
+          <td><input value = {report.report5}/></td>
         </tr>
           <!-- <td>
-            <span><%= live_redirect "Show", to: Routes.customer_show_path(@socket, :show, customer) %></span>
-            <span><%= live_patch "Edit", to: Routes.customer_index_path(@socket, :edit, customer) %></span>
-            <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: customer.id, data: [confirm: "Are you sure?"] %></span>
+            <span><%= live_redirect "Show", to: Routes.customer_show_path(@socket, :show, report) %></span>
+            <span><%= live_patch "Edit", to: Routes.customer_index_path(@socket, :edit, report) %></span>
+            <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: report.id, data: [confirm: "Are you sure?"] %></span>
           </td>
           -->
       <% end %>

@@ -16,6 +16,7 @@
   <div style="overflow-y: scroll">
     <table style="margin-bottom: 0px">
       <tr class = "title_row">
+        <td><input class = "title" disabled value = "id" /></td>
         <td><input class = "title" disabled value = "Name" /></td>
         <td><input class = "title" disabled value = "Fullname" /></td>
         <td><input class = "title"disabled value = "Phone address"/></td>
@@ -29,6 +30,7 @@
     <table>
       <%= for customer <- @customers do %>
         <tr class = {customer.class} id={"customer-#{customer.id}"}>
+          <td><input disabled value = {customer.id}/> </td>
           <td><input phx-blur={"update:name:#{customer.id}"} value = {customer.name}/> </td>
           <td><input phx-blur={"update:fullname:#{customer.id}"} value = {customer.fullname}/></td>
           <td><input phx-blur={"update:phone_address:#{customer.id}"} value = {customer.phone_address}/></td>
@@ -44,6 +46,7 @@
           -->
       <% end %>
       <tr>
+        <td><input disabled /></td>
         <td><input phx-window-keydown="new_name" /></td>
         <td><input phx-window-keydown="new_fullname" /></td>
         <td><input phx-window-keydown="new_phone_address" /></td>
