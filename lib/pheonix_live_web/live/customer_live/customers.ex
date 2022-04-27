@@ -65,11 +65,9 @@ defmodule PheonixLiveWeb.CustomerLive.Customers do
 
   defp save_customer(socket, :edit, customer, customer_params) do
     case Company.update_customer(customer, customer_params) do
-      {:ok, _customer} ->
-        {:noreply,
-         socket
-         |> put_flash(:info, "Customer updated successfully")
-         |> push_redirect(to: "/customers")}
+      {:ok, customer} ->
+        customer
+        #  |> push_redirect(to: "/customers")}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, :changeset, changeset)}
@@ -92,10 +90,18 @@ defmodule PheonixLiveWeb.CustomerLive.Customers do
     input_handler(params,socket)
   end
 
-  def handle_event("update:" <> params,%{"value" => value}, socket) when value != "" do
-    [field,id] = String.split(params,":")
+  def handle_event("update",%{"value" => value, "field" => field, "id" => id}, socket) when value != "" do
     customer = Company.get_customer(id)
-    save_customer(socket, :edit, customer, %{field => value})
+    new_customer = save_customer(socket, :edit, customer, %{field => value})
+    updated_customers = Enum.map(socket.assigns.customers, fn customer ->
+      if customer.id == new_customer.id do
+        new_customer
+        |> Map.put(:class, customer.class)
+      else
+        customer
+      end
+    end)
+    {:noreply, assign(socket, :customers, updated_customers)}
   end
 
   def handle_event(_,_, socket) do

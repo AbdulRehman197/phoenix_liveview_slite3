@@ -31,12 +31,12 @@
       <%= for customer <- @customers do %>
         <tr class = {customer.class} id={"customer-#{customer.id}"}>
           <td><input disabled value = {customer.id}/> </td>
-          <td><input phx-blur={"update:name:#{customer.id}"} value = {customer.name}/> </td>
-          <td><input phx-blur={"update:fullname:#{customer.id}"} value = {customer.fullname}/></td>
-          <td><input phx-blur={"update:phone_address:#{customer.id}"} value = {customer.phone_address}/></td>
-          <td><input phx-blur={"update:info1:#{customer.id}"} value = {customer.info1}/></td>
-          <td><input phx-blur={"update:info2:#{customer.id}"} value = {customer.info2}/></td>
-          <td><input phx-blur={"update:info3:#{customer.id}"} value = {customer.info3}/></td>
+          <td><input id={"name-#{customer.id}"} phx-hook="update_customer" value = {customer.name}/> </td>
+          <td><input id={"fullname-#{customer.id}"} phx-hook="update_customer" value = {customer.fullname}/></td>
+          <td><input id={"phone_address-#{customer.id}"} phx-hook="update_customer" value = {customer.phone_address}/></td>
+          <td><input id={"info1-#{customer.id}"} phx-hook="update_customer" value = {customer.info1}/></td>
+          <td><input id={"info2-#{customer.id}"} phx-hook="update_customer" value = {customer.info2}/></td>
+          <td><input id={"info3-#{customer.id}"} phx-hook="update_customer" value = {customer.info3}/></td>
         </tr>
           <!-- <td>
             <span><%= live_redirect "Show", to: Routes.customer_show_path(@socket, :show, customer) %></span>
@@ -47,7 +47,7 @@
       <% end %>
       <tr>
         <td><input disabled /></td>
-        <td><input phx-window-keydown="new_name" /></td>
+        <td><input id="new-entry" phx-customer-new phx-window-keydown="new_name" /></td>
         <td><input phx-window-keydown="new_fullname" /></td>
         <td><input phx-window-keydown="new_phone_address" /></td>
         <td><input phx-window-keydown="new_info1" /></td>
