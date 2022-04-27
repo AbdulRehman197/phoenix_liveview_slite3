@@ -75,8 +75,7 @@ defmodule PheonixLiveWeb.CustomerLive.Index do
     end
   end
 
-  def handle_event("update:" <> params,%{"value" => value}, socket) when value != "" do
-    [field,id] = String.split(params,":")
+  def handle_event("update_report",%{"value" => value, "field" => field, "id" => id}, socket) when value != "" do
     customer_report = CompanyCustomerReport.get_customer_report(id)
     customer_report = save_customer_report(socket, :edit, customer_report, %{field => value})
     updated_reports = Enum.map(socket.assigns.customer_reports, fn report ->

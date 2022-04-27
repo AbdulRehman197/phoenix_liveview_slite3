@@ -31,12 +31,12 @@
       <%= for report <- @customer_reports do %>
         <tr class = {report.class}>
           <td><input disabled value = {report.customer_id}/> </td>
-          <td><input phx-customer-report-update value = {report.customer_detail}/></td>
-          <td><input phx-customer-report-update phx-blur={"update:report1:#{report.id}"} value = {report.report1}/></td>
-          <td><input phx-customer-report-update phx-blur={"update:report2:#{report.id}"} value = {report.report2}/></td>
-          <td><input phx-customer-report-update phx-blur={"update:report3:#{report.id}"} value = {report.report3}/></td>
-          <td><input phx-customer-report-update phx-blur={"update:report4:#{report.id}"} value = {report.report4}/></td>
-          <td><input phx-customer-report-update phx-blur={"update:report5:#{report.id}"} value = {report.report5}/></td>
+          <td><input readonly id={"customer_detail-#{report.id}"} phx-hook="update_customer_report" value = {report.customer_detail}/></td>
+          <td><input id={"report1-#{report.id}"} phx-hook="update_customer_report" value = {report.report1}/></td>
+          <td><input id={"report2-#{report.id}"} phx-hook="update_customer_report" value = {report.report2}/></td>
+          <td><input id={"report3-#{report.id}"} phx-hook="update_customer_report" value = {report.report3}/></td>
+          <td><input id={"report4-#{report.id}"} phx-hook="update_customer_report" value = {report.report4}/></td>
+          <td><input id={"report5-#{report.id}"} phx-hook="update_customer_report" value = {report.report5}/></td>
         </tr>
           <!-- <td>
             <span><%= live_redirect "Show", to: Routes.customer_show_path(@socket, :show, report) %></span>
@@ -46,7 +46,7 @@
           -->
       <% end %>
       <tr>
-        <td><input autoFocus phx-customer-report-new phx-window-keydown="enter_id" /></td>
+        <td><input id="new-entry" phx-window-keydown="enter_id" /></td>
         <td><input /></td>
         <td><input /></td>
         <td><input /></td>

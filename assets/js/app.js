@@ -92,10 +92,85 @@ Hooks.update_customer = {
       } else if (evt.keyCode === 40) {
         // 40 = down arrow key
         let arr = this.el.parentElement.parentElement.nextElementSibling
+          ? [...this.el.parentElement.parentElement.nextElementSibling.children]
+          : [];
+        arr.forEach((element, index, nextRow) => {
+          if (
+            element.children[0].id &&
+            this.el.id.split("-")[0] === element.children[0].id.split("-")[0]
+          ) {
+            nextRow[index].children[0]?.focus();
+          }
+        });
+      }
+    });
+  },
+};
+
+Hooks.update_customer_report = {
+  mounted() {
+    document.getElementById("new-entry").focus();
+    this.el.addEventListener("keyup", (evt) => {
+      if (evt.keyCode === 13 && evt.target.value) {
+        // 13 = Enter key
+        let [field, id] = evt.target.id.split("-");
+        if (field !== "customer_detail") {
+          this.pushEvent(
+            "update_report",
+            {
+              field,
+              id,
+              value: evt.target.value,
+            },
+            () => {
+              if (this.el.parentElement.nextElementSibling) {
+                this.el.parentElement.nextElementSibling.children[0].focus();
+              } else {
+                this.el.parentElement.parentElement.nextElementSibling?.children[1]?.children[0].focus();
+              }
+            }
+          );
+        }
+      } else if (evt.keyCode === 37) {
+        // 37 = left arrow key
+        if (this.el.parentElement.previousElementSibling.children[0].disabled) {
+          this.el.parentElement.parentElement.previousElementSibling?.children[
+            this.el.parentElement.parentElement.previousElementSibling?.children
+              .length - 1
+          ].children[0].focus();
+        } else if (this.el.parentElement.previousElementSibling) {
+          this.el.parentElement.previousElementSibling.children[0].focus();
+        }
+      } else if (evt.keyCode === 38) {
+        // 38 = up arrow key
+        let arr = this.el.parentElement.parentElement.previousElementSibling
           ? [
-              ...this.el.parentElement.parentElement.nextElementSibling
+              ...this.el.parentElement.parentElement.previousElementSibling
                 .children,
             ]
+          : [];
+        arr.forEach((element, index, prevRow) => {
+          if (
+            element.children[0].id &&
+            this.el.id.split("-")[0] === element.children[0].id.split("-")[0]
+          ) {
+            prevRow[index].children[0]?.focus();
+          }
+        });
+      } else if (evt.keyCode === 39) {
+        // 39 = right arrow key
+        if (this.el.parentElement.nextElementSibling) {
+          this.el.parentElement.nextElementSibling.children[0].focus();
+        } else if (
+          this.el.parentElement.parentElement.nextElementSibling?.children[0]
+            .children[0].disabled
+        ) {
+          this.el.parentElement.parentElement.nextElementSibling?.children[1].children[0].focus();
+        }
+      } else if (evt.keyCode === 40) {
+        // 40 = down arrow key
+        let arr = this.el.parentElement.parentElement.nextElementSibling
+          ? [...this.el.parentElement.parentElement.nextElementSibling.children]
           : [];
         arr.forEach((element, index, nextRow) => {
           if (
