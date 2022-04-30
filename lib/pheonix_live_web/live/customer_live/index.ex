@@ -8,13 +8,14 @@ defmodule PheonixLiveWeb.CustomerLive.Index do
   alias PheonixLiveWeb.UserAuth
 
   @impl true
-  def mount(_params, %{"user_token" => user_token}, socket) do
+  def mount(%{"group" => group}, %{"user_token" => user_token}, socket) do
     user = UserAuth.fetch_current_user_by_token(user_token)
-    list = get_report_list(user)
+    list = get_report_list(%{"id" => user.id, "group" => group})
     {:ok,
     socket
     |> assign(:customer_reports, list)
     |> assign(:user, user)
+    |> assign(:current_path, group)
     }
   end
 
@@ -56,7 +57,7 @@ defmodule PheonixLiveWeb.CustomerLive.Index do
         {:noreply,
          socket
          |> put_flash(:info, "Customer Report created successfully")
-         |> push_redirect(to: "/")}
+         |> push_redirect(to: "/report/#{socket.assigns.current_path}")}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, changeset: changeset)}
@@ -75,9 +76,9 @@ defmodule PheonixLiveWeb.CustomerLive.Index do
   end
 
   def handle_event("enter_id",%{"key" => "Enter","value" => id}, socket) when id != "" do
-    case Company.get_customer(id) do
-    nil -> {:noreply, socket}
-    customer -> save_customer_report(socket, :new, %{"customer_id" => customer.id, "customer_detail" => "#{customer.name} #{customer.fullname} #{customer.phone_address} #{customer.info1} #{customer.info2} #{customer.info3}", "report1" => "", "report2" => "", "report3" => "", "report4" => "", "report5" => "", "group_ref" => "test"})
+    case Group.get_specific_report_group(%{"user_id" => socket.assigns.user.id, "group_name" => socket.assigns.current_path}) do
+      nil -> add_in_group_and_save_report(socket.assigns.user.id, socket.assigns.current_path, id, socket)
+      _ -> save_new_report(id, socket)
     end
   end
 
@@ -124,8 +125,8 @@ defmodule PheonixLiveWeb.CustomerLive.Index do
     new_list
   end
 
-  defp get_report_list(user) do
-    case Group.get_specific_report_group(%{"user_id" => user.id, "group_name" => "test"}) do
+  defp get_report_list(%{"id" => user_id, "group" => group}) do
+    case Group.get_specific_report_group(%{"user_id" => user_id, "group_name" => group}) do
       nil -> []
       group -> list_with_class(group.group_name)
     end
@@ -137,5 +138,19 @@ defmodule PheonixLiveWeb.CustomerLive.Index do
       [head | customer_report_list] -> add_class_list(customer_report_list, [Map.put(head,:class,"light_row")])
     end
   end
-  
+
+  defp save_new_report(id, socket) do
+    case Company.get_customer(id) do
+      nil -> {:noreply, socket}
+      customer -> save_customer_report(socket, :new, %{"customer_id" => customer.id, "customer_detail" => "#{customer.name} #{customer.fullname} #{customer.phone_address} #{customer.info1} #{customer.info2} #{customer.info3}", "report1" => "", "report2" => "", "report3" => "", "report4" => "", "report5" => "", "group_ref" => socket.assigns.current_path})
+    end
+  end
+
+  defp add_in_group_and_save_report( user_id, group, customer_id, socket) do
+    case Group.create_report_group(%{"user_id" => user_id, "group_name" => group}) do
+      {:ok, _struct} -> save_new_report(customer_id, socket)
+      {:error, changeset} -> nil
+    end
+  end
+
 end
