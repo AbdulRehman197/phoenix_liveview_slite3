@@ -109,6 +109,13 @@ defmodule PheonixLiveWeb.UserAuth do
   end
 
   @doc """
+  Used to get current user using token.
+  """
+  def fetch_current_user_by_token(user_token) do
+    Accounts.get_user_by_session_token(user_token)
+  end
+
+  @doc """
   Used for routes that require the user to not be authenticated.
   """
   def redirect_if_user_is_authenticated(conn, _opts) do

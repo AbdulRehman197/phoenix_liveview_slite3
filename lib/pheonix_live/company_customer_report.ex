@@ -21,6 +21,12 @@ defmodule PheonixLive.CompanyCustomerReport do
     Repo.all(CustomerReport)
   end
 
+  def list_specific_customer_report(group_name) do
+    qry = from r in CustomerReport,
+    where: r.group_ref == ^group_name
+    Repo.all(qry)
+  end
+
   @doc """
   Gets a single customer_report.
 
