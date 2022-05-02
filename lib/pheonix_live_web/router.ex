@@ -76,6 +76,7 @@ defmodule PheonixLiveWeb.Router do
     pipe_through [:browser, :require_authenticated_user]
 
 
+    live "/", CustomerLive.Groups, :index
     live "/report/:group", CustomerLive.Index, :index
     live "/new", CustomerLive.Index, :new
     live "/customers", CustomerLive.Customers, :index

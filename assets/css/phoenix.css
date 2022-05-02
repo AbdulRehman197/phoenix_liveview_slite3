@@ -135,6 +135,17 @@ input {
   background-color: #7d8588;
 }
 
+.group-list {
+  background: rgb(108, 158, 233);
+  text-align: center;
+  padding: 10px;
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
 ::-webkit-scrollbar {
   width: 7px !important;
 }

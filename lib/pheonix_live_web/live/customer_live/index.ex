@@ -10,13 +10,15 @@ defmodule PheonixLiveWeb.CustomerLive.Index do
   @impl true
   def mount(%{"group" => group}, %{"user_token" => user_token}, socket) do
     user = UserAuth.fetch_current_user_by_token(user_token)
-    list = get_report_list(%{"id" => user.id, "group" => group})
-    {:ok,
-    socket
-    |> assign(:customer_reports, list)
-    |> assign(:user, user)
-    |> assign(:current_path, group)
-    }
+    case get_report_list(%{"id" => user.id, "group" => group}, socket) do
+      nil -> {:ok, push_redirect(socket, to: "/")}
+      list -> {:ok,
+      socket
+      |> assign(:customer_reports, list)
+      |> assign(:user, user)
+      |> assign(:current_path, group)
+      }
+    end
   end
 
   @impl true
@@ -77,7 +79,9 @@ defmodule PheonixLiveWeb.CustomerLive.Index do
 
   def handle_event("enter_id",%{"key" => "Enter","value" => id}, socket) when id != "" do
     case Group.get_specific_report_group(%{"user_id" => socket.assigns.user.id, "group_name" => socket.assigns.current_path}) do
-      nil -> add_in_group_and_save_report(socket.assigns.user.id, socket.assigns.current_path, id, socket)
+      nil -> {:noreply,
+      socket
+      |> put_flash(:error, "You are not Member of this group.")}
       _ -> save_new_report(id, socket)
     end
   end
@@ -125,9 +129,9 @@ defmodule PheonixLiveWeb.CustomerLive.Index do
     new_list
   end
 
-  defp get_report_list(%{"id" => user_id, "group" => group}) do
+  defp get_report_list(%{"id" => user_id, "group" => group}, socket) do
     case Group.get_specific_report_group(%{"user_id" => user_id, "group_name" => group}) do
-      nil -> []
+      nil -> nil
       group -> list_with_class(group.group_name)
     end
   end

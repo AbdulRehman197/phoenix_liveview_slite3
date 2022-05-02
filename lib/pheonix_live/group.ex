@@ -17,8 +17,10 @@ defmodule PheonixLive.Group do
       [%ReportGroup{}, ...]
 
   """
-  def list_report_group do
-    Repo.all(ReportGroup)
+  def list_report_group(user_id) do
+    qry = from g in ReportGroup,
+    where: g.user_id == ^user_id
+    Repo.all(qry)
   end
 
   @doc """

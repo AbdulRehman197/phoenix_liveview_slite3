@@ -1,0 +1,12 @@
+<h1>My Groups</h1>
+<div>
+  <div class="table-body">
+    <table>
+      <%= for group <- @groups do %>
+        <tr>
+          <td><div phx-click={"redirect_#{group.group_name}"} class="group-list"><%= group.group_name %></div></td>
+        </tr>
+      <% end %>
+    </table>
+  </div>
+</div>
