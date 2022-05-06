@@ -1,17 +1,5 @@
 <h1>Customers List</h1>
 
-<%= if @live_action in [:new, :edit] do %>
-  <.modal return_to={Routes.customer_index_path(@socket, :index)}>
-    <.live_component
-      module={PheonixLiveWeb.CustomerLive.FormComponent}
-      id={@customer.id || :new}
-      title={@page_title}
-      action={@live_action}
-      customer={@customer}
-      return_to={Routes.customer_index_path(@socket, :index)}
-    />
-  </.modal>
-<% end %>
 <div>
   <div style="overflow-y: scroll">
     <table style="margin-bottom: 0px">
@@ -58,4 +46,3 @@
   </div>
 </div>
 
-<span><%= live_patch "Customers Report", to: Routes.customer_index_path(@socket, :index) %></span>

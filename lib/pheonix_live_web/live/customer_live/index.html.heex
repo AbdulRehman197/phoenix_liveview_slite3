@@ -1,17 +1,5 @@
 <h1>Customers Report</h1>
 
-<%= if @live_action in [:new, :edit] do %>
-  <.modal return_to={Routes.customer_index_path(@socket, :index)}>
-    <.live_component
-      module={PheonixLiveWeb.CustomerLive.FormComponent}
-      id={@customer_report.id || :new}
-      title={@page_title}
-      action={@live_action}
-      customer={@customer_report}
-      return_to={Routes.customer_index_path(@socket, :index)}
-    />
-  </.modal>
-<% end %>
 <div>
   <div style="overflow-y: scroll">
     <table style="margin-bottom: 0px">
