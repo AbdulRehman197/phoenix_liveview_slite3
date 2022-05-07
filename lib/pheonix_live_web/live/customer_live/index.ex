@@ -52,6 +52,9 @@ defmodule PheonixLiveWeb.CustomerLive.Index do
   #   {:noreply, assign(socket, :customer_reports, list_customer_report())}
   # end
 
+  def handle_event("reirect_member_page", _param, socket) do
+    {:noreply, push_redirect(socket, to: "/#{socket.assigns.current_path}/add")}
+  end
 
   defp save_customer_report(socket, :new, customer_report_params) do
     case CompanyCustomerReport.create_customer_report(customer_report_params) do

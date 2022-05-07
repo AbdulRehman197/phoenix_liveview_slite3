@@ -46,4 +46,13 @@
   </div>
 </div>
 
-<span><%= live_patch "Customers List", to: Routes.customer_customers_path(@socket, :index) %></span>
+<table>
+  <tr>
+    <td>
+      <span><%= live_patch "Customers List", to: Routes.customer_customers_path(@socket, :index) %></span>
+    </td>
+    <td>
+      <span><a phx-click="reirect_member_page" href="javascript:void();">Add Member</a></span>
+    </td>
+  </tr>
+</table>

@@ -234,6 +234,12 @@ defmodule PheonixLive.Accounts do
     Repo.one(query)
   end
 
+  def get_user_by_email(email) do
+    qry = from u in User,
+    where: u.email == ^email
+    Repo.one(qry)
+  end
+
   @doc """
   Deletes the signed token with the given context.
   """

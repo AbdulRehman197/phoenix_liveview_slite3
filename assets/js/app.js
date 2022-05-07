@@ -187,13 +187,12 @@ Hooks.update_customer_report = {
 
 Hooks.create_new_group = {
   mounted() {
-    let group_name = document.getElementById("new_group_input_field");
-    this.el.addEventListener("click", (evt) => {
-      if (group_name.value) {
+    this.el.addEventListener("keyup", (evt) => {
+      if (evt.keyCode === 13 && evt.target.value) {
         this.pushEvent(
           "create_new_group",
           {
-            value: group_name.value,
+            value: evt.target.value,
           },
           () => {
             // console.log("New Group Created.");
@@ -203,6 +202,24 @@ Hooks.create_new_group = {
     });
   },
 };
+
+Hooks.add_member_in_group = {
+  mounted() {
+    this.el.addEventListener("keyup", (evt) => {
+      if (evt.keyCode === 13 && evt.target.value) {
+        this.pushEvent(
+          "add_member_in_group",
+          {
+            value: evt.target.value,
+          },
+          () => {
+            // console.log("New Group Created.");
+          }
+        );
+      }
+    });
+  },
+}
 
 let liveSocket = new LiveSocket("/live", Socket, {
   hooks: Hooks,

@@ -116,6 +116,13 @@ defmodule PheonixLiveWeb.UserAuth do
   end
 
   @doc """
+  Used to get user by email.
+  """
+  def fetch_user_by_email(email) do
+    Accounts.get_user_by_email(email)
+  end
+
+  @doc """
   Used for routes that require the user to not be authenticated.
   """
   def redirect_if_user_is_authenticated(conn, _opts) do
