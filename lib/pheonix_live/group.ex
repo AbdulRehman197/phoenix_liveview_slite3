@@ -48,6 +48,12 @@ defmodule PheonixLive.Group do
     Repo.one(qry)
   end
 
+  def get_by_name(group_name) do
+    qry = from g in ReportGroup,
+    where: g.group_name == ^group_name
+    Repo.one(qry)
+  end
+
   @doc """
   Creates a report_group.
 

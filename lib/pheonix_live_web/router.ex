@@ -78,6 +78,7 @@ defmodule PheonixLiveWeb.Router do
 
     live "/", CustomerLive.Groups, :index
     live "/report/:group", CustomerLive.Index, :index
+    live "/new/group", CustomerLive.NewGroup, :index
     live "/new", CustomerLive.Index, :new
     live "/customers", CustomerLive.Customers, :index
     live "/:id/edit", CustomerLive.Index, :edit
